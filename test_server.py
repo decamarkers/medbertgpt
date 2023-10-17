@@ -30,7 +30,7 @@ def process_question():
 @app.route("/convertSpeechToText/<string:recordingFilepath>", methods=["GET"])
 def convertSpeechToText(recordingFilepath):
   # pip install -U openai-whisper
-  # May need FFMPEG?
+  # May need FFMPEG? https://www.geeksforgeeks.org/how-to-install-ffmpeg-on-windows/
   print(recordingFilepath)
 
   # Set model filepath
