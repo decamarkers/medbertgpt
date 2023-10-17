@@ -35,6 +35,7 @@ def convertSpeechToText(recordingFilepath):
 
   # Set model filepath
   # Default code to download: model = whisper.load_model("base")
+  # After downloading, model will be stored in C:\Users\<username>\.cache\whisper\<model>
   model = whisper.load_model("base.pt")
 
   # load audio and pad/trim it to fit 30 seconds
