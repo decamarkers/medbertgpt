@@ -18,7 +18,7 @@
   <!-- add something that can allow voice -->
   <form hx-post="/process_question" hx-swap="beforeend" hx-target="#answer-responses" class="mb-3">
     <input type="text" id="question-input" name="question" placeholder="Type question here" class="form-control mb-3" x-webkit-speech>
-    <button type="button" onclick="recognition.start()" class="btn btn-secondary">
+    <button type="button" onclick="handleMic()" class="btn btn-secondary">
       <span class="iconify" data-icon="carbon:microphone-filled"></span>
     </button>
     <button type="submit" id="question-submit" class="btn btn-primary">Submit</button>
@@ -26,24 +26,57 @@
   <br>
 
   <script>
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-    const recognition = new SpeechRecognition()
-    recognition.continuous = true
-    recognition.interimResults = true
-    let finalTranscript = ""
-    recognition.onstart = () => {console.log("Started")}
-    recognition.onerror = (e) => {console.error(e)}
-    recognition.onend = () => {console.log("Ended")}
-    recognition.onresult = (e) => {
-      let interimTranscript = ""
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        const transcript = event.results[i][0].transcript
-        if (event.results[i].isFinal) finalTranscript += transcript
-        else interimTranscript += transcript
+    // test on chrome vs brave at home (there seems to be some stuff to think about)
+    // function handleMic() {
+    //   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    //   const recognition = new SpeechRecognition()
+    //   recognition.continuous = false
+    //   recognition.interimResults = false
+    //   recognition.lang = "en-US"
+    //   recognition.onstart = function() {console.log("Started")}
+    //   recognition.onend = function() {console.log("Ended")}
+    //   recognition.start()
+    //   recognition.onresult = function(e) {
+    //     const transcript = e.results[0][0].transcript
+    //     recognition.stop()
+    //     console.log(transcript)
+    //   }
+    //   recognition.onerror = function(e) {
+    //     console.error(e)
+    //     recognition.stop()
+    //   }
+    // }
+
+    let recorder
+    let chunks = []
+    let recording = false
+    async function handleMic() {
+      if (recording) {
+        recorder.stop()
+        recording = false
+      } else {
+        const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: false})
+        recorder = new MediaRecorder(stream)
+        recorder.onstart = function() {console.log("Started")}
+        recorder.ondataavailable = function({data}) {chunks.push(data)}
+        recorder.onstop = async function() {
+          const blob = new Blob(chunks, {type: "audio/wav"})
+          console.log(blob)
+          const formData = new FormData()
+          formData.append("audio", blob)
+          const res = await fetch("/[][][]", {
+            method: "POST",
+            mode: "cors",
+            body: formData,
+          })
+          const data = res.json()
+          console.log(data.text)
+          console.log("Ended")
+        }
+        recorder.start()
+        recording = true
       }
-      finalTranscript += interimTranscript
     }
-    console.log(finalTranscript)
   </script>
 </body>
 </html>
