@@ -16,7 +16,7 @@
   <div id="answer-responses"></div>
   <br>
   <!-- add something that can allow voice -->
-  <form hx-post="/process_question" hx-swap="beforeend" hx-target="#answer-responses" class="mb-3">
+  <form hx-post="/process-question" hx-swap="beforeend" hx-target="#answer-responses" class="mb-3">
     <input type="text" id="question-input" name="question" placeholder="Type question here" class="form-control mb-3" x-webkit-speech>
     <button type="button" onclick="handleMic()" class="btn btn-secondary">
       <span class="iconify" data-icon="carbon:microphone-filled"></span>
@@ -27,56 +27,73 @@
 
   <script>
     // test on chrome vs brave at home (there seems to be some stuff to think about)
-    // function handleMic() {
-    //   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-    //   const recognition = new SpeechRecognition()
-    //   recognition.continuous = false
-    //   recognition.interimResults = false
-    //   recognition.lang = "en-US"
-    //   recognition.onstart = function() {console.log("Started")}
-    //   recognition.onend = function() {console.log("Ended")}
-    //   recognition.start()
-    //   recognition.onresult = function(e) {
-    //     const transcript = e.results[0][0].transcript
-    //     recognition.stop()
-    //     console.log(transcript)
-    //   }
-    //   recognition.onerror = function(e) {
-    //     console.error(e)
-    //     recognition.stop()
-    //   }
-    // }
 
-    let recorder
-    let chunks = []
     let recording = false
-    async function handleMic() {
+    let recognition
+    let results
+
+    function handleMic() {
       if (recording) {
-        recorder.stop()
+        recognition.stop()
         recording = false
       } else {
-        const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: false})
-        recorder = new MediaRecorder(stream)
-        recorder.onstart = function() {console.log("Started")}
-        recorder.ondataavailable = function({data}) {chunks.push(data)}
-        recorder.onstop = async function() {
-          const blob = new Blob(chunks, {type: "audio/wav"})
-          console.log(blob)
-          const formData = new FormData()
-          formData.append("audio", blob)
-          const res = await fetch("/[][][]", {
-            method: "POST",
-            mode: "cors",
-            body: formData,
-          })
-          const data = res.json()
-          console.log(data.text)
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+        recognition = new SpeechRecognition()
+        recognition.continuous = true
+        recognition.interimResults = true
+        recognition.lang = "en-US"
+        recognition.onstart = function() {console.log("Started")}
+        recognition.onresult = async function(e) {results = e.results}
+        recognition.onend = function() {
           console.log("Ended")
+          for (let i = 0; i < results.length; i++) {
+            const transcript = results[i][0].transcript
+            console.log(transcript)
+            document.getElementById("question-input").value = transcript
+          }
         }
-        recorder.start()
+        recognition.onerror = function(e) {
+          console.error(e)
+          recognition.stop()
+        }
+        recognition.start()
         recording = true
       }
     }
+
+    // let recorder
+    // let chunks = []
+    // async function handleMic3() {
+    //   if (recording) {
+    //     recorder.stop()
+    //     recording = false
+    //   } else {
+    //     const stream = await navigator.mediaDevices.getUserMedia({audio: true})
+    //     recorder = new MediaRecorder(stream)
+    //     recorder.onstart = function() {console.log("Started")}
+    //     recorder.ondataavailable = function({data}) {chunks.push(data)}
+    //     recorder.onstop = async function() {
+    //       const blob = new Blob(chunks, {type: "audio/wav"})
+    //       console.log(blob)
+    //       const formData = new FormData()
+    //       formData.append("audio", blob, "temp_audio.wav")
+    //       try {
+    //         const res = await fetch("/process-deez", {
+    //           method: "POST",
+    //           mode: "cors",
+    //           body: formData,
+    //         })
+    //         const data = await res.json()
+    //         console.log(data.text)
+    //         console.log("Ended")
+    //       } catch (err) {
+    //         console.error(err)
+    //       }
+    //     }
+    //     recorder.start()
+    //     recording = true
+    //   }
+    // }
   </script>
 </body>
 </html>
