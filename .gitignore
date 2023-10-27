@@ -6,3 +6,8 @@ icliniqQAs.json
 base.pt
 *.wav
 ffmpeg.exe
+
+*.pkl
+*.zip
+question_extractor_model_2_11
+tf_gpt2_model_2_1019
