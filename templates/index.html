@@ -28,7 +28,12 @@
   <form hx-post="/process-question" hx-swap="beforeend" hx-target="#answer-responses" class="mb-3" _="on htmx:afterRequest reset() me">
     <input type="text" id="question-input" name="question" placeholder="Type question here" class="form-control mb-3" x-webkit-speech>
     <button type="button" onclick="handleMic()" class="btn btn-secondary">
-      <span class="iconify" data-icon="carbon:microphone-filled"></span>
+      <span id="mic-default" style="display:inline;">
+        <span class="iconify" data-icon="carbon:microphone-filled"></span>
+      </span>
+      <span id="mic-recording" style="display:none;">
+        <span class="iconify" data-icon="carbon:recording-filled"></span>
+      </span>
     </button>
     <button type="submit" id="question-submit" class="btn btn-primary" _="on click toggle @disabled until htmx:afterOnLoad">
       Submit
@@ -38,15 +43,19 @@
   <br>
 
   <script>
-    // test on chrome vs brave at home (there seems to be some stuff to think about)
+    // Only supported on Chrome, because it window.SpeechRecognition uses Google servers' speech-to-text processing
 
     let recording = false
     let recognition
     let results
+    const mic_default = document.getElementById("mic-default")
+    const mic_recording = document.getElementById("mic-recording")
 
     function handleMic() {
       if (recording) {
         recognition.stop()
+        mic_default.style.display = "inline"
+        mic_recording.style.display = "none"
         recording = false
       } else {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
@@ -69,6 +78,8 @@
           recognition.stop()
         }
         recognition.start()
+        mic_default.style.display = "none"
+        mic_recording.style.display = "inline"
         recording = true
       }
     }
