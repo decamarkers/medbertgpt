@@ -122,14 +122,8 @@ def give_answer(question,answer_len):
     input=input[-(1024-answer_len):]
   gpt2_output=gpt2_tokenizer.decode(tf_gpt2_model.generate(input_ids=tf.constant([np.array(input)]),max_length=1024,temperature=0.7)[0])
   answer=gpt2_output.rindex('`ANSWER: ')
-  return gpt2_output[answer+len('`ANSWER: '):]
-  
+  return gpt2_output[answer+len('`ANSWER: '):]  
 
-
-#defining the final function to generate answer assuming default answer length to be 20
-def final_func_1(question):
-  answer_len=50
-  return give_answer(question,answer_len)
 
 
 
@@ -158,7 +152,7 @@ def remove_repeating_phrases(text):
 # Flask server for usage
 # ----------------------------------------------------------------
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -168,18 +162,49 @@ CORS(app)
 def hello():
   return render_template("index.html")
 
+@app.route("/evaluate-answer", methods=["POST"])
+def evaluate_answer():
+  req = request.get_json()
+  question = req["question"]
+  expected_answer = req["expected_answer"]
+  start_time = datetime.now()
+  generated_answer=remove_repeating_phrases(give_answer(question, 50))
+  reference = [expected_answer.split(' ')]
+  candidate = generated_answer.split(' ')
+  score = {
+    "1_gram": sentence_bleu(reference, candidate, weights=(1,0,0,0)),
+    "2_gram": sentence_bleu(reference, candidate, weights=(0,1,0,0)),
+    "3_gram": sentence_bleu(reference, candidate, weights=(0,0,1,0)),
+    "4_gram": sentence_bleu(reference, candidate, weights=(0,0,0,1)),
+  }
+  cumulative_score = {
+    "2_gram": sentence_bleu(reference, candidate, weights=(0.5,0.5,0,0)),
+    "3_gram": sentence_bleu(reference, candidate, weights=(0.33,0.33,0.33,0)),
+    "4_gram": sentence_bleu(reference, candidate, weights=(0.25,0.25,0.25,0.25)),
+  }
+  end_time = datetime.now()
+  time_taken = (end_time - start_time).total_seconds()
+  return jsonify({
+    "question": question,
+    "expected_answer": expected_answer,
+    "generated_answer": generated_answer,
+    "evaluation_score": score,
+    "evaluation_score_cumulative": cumulative_score,
+    "time_taken": time_taken,
+  }), 200
+
 @app.route("/process-question", methods=["POST"])
 def process_question():
   question = request.form.get("question")
   start_time = datetime.now()
-  answer = remove_repeating_phrases(final_func_1(question))
+  answer = remove_repeating_phrases(give_answer(question, 50))
   end_time = datetime.now()
   time_taken = (end_time - start_time).total_seconds()
   return f"""
     <div class="response-block">
-      <h3>{question}</h3>
+      <h2>{question}</h2>
       <p>{answer}</p>
-      <p><i>{time_taken}</i></p>
+      <i>Time Taken: {time_taken}s</i>
     </div>
   """
 
