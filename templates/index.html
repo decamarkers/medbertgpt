@@ -17,6 +17,10 @@
     .htmx-request.htmx-indicator{
       display:inline;
     }
+
+    div.response-block > p {
+      font-size: 24px;
+    }
   </style>
 </head>
 <body class="m-5">
@@ -25,9 +29,9 @@
   <div id="answer-responses"></div>
   <br>
   <!-- add something that can allow voice -->
-  <form hx-post="/process-question" hx-swap="beforeend" hx-target="#answer-responses" class="mb-3" _="on htmx:afterRequest reset() me">
+  <form hx-post="/process-question" hx-swap="beforeend" hx-target="#answer-responses" class="mb-3" hx-on::before-request="this.submit_button.disabled = true; this.mic_button.disabled = true" hx-on::after-request="if(event.detail.successful) {this.reset(); this.submit_button.disabled = false; this.mic_button.disabled = false}">
     <input type="text" id="question-input" name="question" placeholder="Type question here" class="form-control mb-3" x-webkit-speech>
-    <button type="button" onclick="handleMic()" class="btn btn-secondary">
+    <button type="button" onclick="handleMic()" class="btn btn-secondary" name="mic_button">
       <span id="mic-default" style="display:inline;">
         <span class="iconify" data-icon="carbon:microphone-filled"></span>
       </span>
@@ -35,7 +39,7 @@
         <span class="iconify" data-icon="carbon:recording-filled"></span>
       </span>
     </button>
-    <button type="submit" id="question-submit" class="btn btn-primary" _="on click toggle @disabled until htmx:afterOnLoad">
+    <button type="submit" id="question-submit" name="submit_button" class="btn btn-primary">
       Submit
       <img class="htmx-indicator" src="{{url_for('static', filename='bars.svg')}}">
     </button>
