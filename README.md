@@ -28,9 +28,11 @@ _Optional GPU drivers_
 
 _Training BioBert_
 * Follow the steps in [Part1_BioBert_Finetuning_with_Question_Answer_Extractor_Models.ipynb](./Part1_BioBert_Finetuning_with_Question_Answer_Extractor_Models.ipynb)
+  * Contains the data extraction and data cleaning, followed by the training of the BioBert model
 
 _Training GPT-2_
 * Follow the steps in [Part2_GPT2_Finetuning.ipynb](./Part2_GPT2_Finetuning.ipynb)
+  * Contains the training of the GPT-2 decoder model
 
 _Deploying the Inference Pipline & User Interface_
 * Ensure that the pip packages in the [previous](#dependencies--installations) section are installed
@@ -46,13 +48,7 @@ Examples can be found [here](./examples/README.md)
 
 ## Contributors
 
-* [Hoon Qi Hang](#authors)
-* [Yeo Zi Qing](#authors)
-* [Edmund Chia](#authors)
-* [Ranon Sew](#authors)
-
-## License
-
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
-
-## Acknowledgments
+* Hoon Qi Hang
+* Yeo Zi Qing
+* Edmund Chia
+* Ranon Sew
