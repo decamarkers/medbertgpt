@@ -4,14 +4,14 @@ Medical health chatbot built using BioBert & GPT-2 for medical queries.
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+CS425 Project: Healthbuddy. A chatbot system implemented with the aim to enable individuals to assess their symptoms and obtain preliminary medical advice, to ensure that they are able to receive timely and appropriate medical intervention as needed.
 
 ## Getting Started
 
 ### Dependencies & Installations
 
 _Prerequisites_:
-* Python 3.8
+* Python 3.7^ (or newer)
 * Jupyter Notebook & Conda (for training)
 * Pip Packages (deployment.py)
 ```sh
@@ -41,10 +41,11 @@ _Deploying the Inference Pipline & User Interface_
 python deployment.py
 ```
 * When the terminal displays a "finished initialization", the UI can be accessed via "http://localhost:42069" in the browser (port can be changed at the bottom of the [deployment.py](./deployment.py) file).
+  * Do note that if using CPU to when running this script, it can take around 2 minutes (using a laptop 10th gen i5) to start the flask server, and can also take around 30 seconds (using the same laptop) to return a response when an input is provided
 
-## Examples (images)
+## Example outputs (images)
 
-Examples can be found [here](./examples/README.md)
+Images of example outputs can be found [here](./examples/README.md)
 
 ## Contributors
 
