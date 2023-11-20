@@ -23,15 +23,30 @@ _Optional GPU drivers_
 * [CUDA ToolKit](https://developer.nvidia.com/cuda-toolkit)
 * [cuDNN](https://developer.nvidia.com/cudnn)
   * need to have Nvidia developer account
+### How to run the code
+*Step 1
+```sh
+pip install faiss-gpu tensorflow numpy pandas nltk transformers flask flask-cors
+```
 
-### Executing program
+*Step 2
+```sh
+cd medbertgpt
+```
+
+*Step 3
+```sh
+python deployment.py
+```
+
+### Fine Tune BioBert/GPT-2 Model
 
 _Training BioBert_
 * Follow the steps in [Part1_BioBert_Finetuning_with_Question_Answer_Extractor_Models.ipynb](./Part1_BioBert_Finetuning_with_Question_Answer_Extractor_Models.ipynb)
   * Contains the data extraction and data cleaning, followed by the training of the BioBert model
 
 _Training GPT-2_
-* Follow the steps in [Part2_GPT2_Finetuning.ipynb](./Part2_GPT2_Finetuning.ipynb)
+* Follow the steps in [Part_1_BioBert.ipynb](./Part_1_BioBert.ipynb)
   * Contains the training of the GPT-2 decoder model
 
 _Deploying the Inference Pipline & User Interface_
