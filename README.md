@@ -46,7 +46,7 @@ _Training BioBert_
   * Contains the data extraction and data cleaning, followed by the training of the BioBert model
 
 _Training GPT-2_
-* Follow the steps in [Part_1_BioBert.ipynb](./Part_1_BioBert.ipynb)
+* Follow the steps in [Part2_GPT2_Finetuning.ipynb.ipynb](./Part2_GPT2_Finetuning.ipynb.ipynb)
   * Contains the training of the GPT-2 decoder model
 
 _Deploying the Inference Pipline & User Interface_
