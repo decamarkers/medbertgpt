@@ -43,6 +43,10 @@ python deployment.py
 * When the terminal displays a "finished initialization", the UI can be accessed via "http://localhost:42069" in the browser (port can be changed at the bottom of the [deployment.py](./deployment.py) file).
   * Do note that if using CPU to when running this script, it can take around 2 minutes (using a laptop 10th gen i5) to start the flask server, and can also take around 30 seconds (using the same laptop) to return a response when an input is provided
 
+  * Certain browsers may block microphone access due the website being launched locally as "HTTP" instead of "HTTPS". To enable the microphone access you may have to whitelist the URL of the website as shown below in your browser
+  * ![image](https://github.com/decamarkers/medbertgpt/assets/85857168/24e0031e-7d42-4621-9d1d-a66ca4b275be)
+
+
 ## Example outputs (images)
 
 Images of example outputs can be found [here](./examples/README.md)
