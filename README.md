@@ -24,22 +24,22 @@ _Optional GPU drivers_
 * [cuDNN](https://developer.nvidia.com/cudnn)
   * need to have Nvidia developer account
 ### How to run the code
-*Step 1: Installed the required packages
+**Step 1**: Installed the required packages
 ```sh
 pip install faiss-gpu tensorflow numpy pandas nltk transformers flask flask-cors
 ```
 
-*Step 2: Enter the directory
+**Step 2**: Enter the directory
 ```sh
 cd medbertgpt
 ```
 
-*Step 3: Run the deployment file
+**Step 3**: Run the deployment file
 ```sh
 python deployment.py
 ```
 
-*Step 4: When the terminal displays a "finished initialization" (2 mins), the UI can be accessed via [http://localhost:42069](http://localhost:42069)
+**Step 4**: When the terminal displays a "finished initialization" (2 mins), the UI can be accessed via [http://localhost:42069](http://localhost:42069)
 
 ### Fine Tune BioBert/GPT-2 Model
 
