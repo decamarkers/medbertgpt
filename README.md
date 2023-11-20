@@ -39,6 +39,8 @@ cd medbertgpt
 python deployment.py
 ```
 
+*Step 4: When the terminal displays a "finished initialization" (2 mins), the UI can be accessed via [http://localhost:42069](http://localhost:42069)
+
 ### Fine Tune BioBert/GPT-2 Model
 
 _Training BioBert_
