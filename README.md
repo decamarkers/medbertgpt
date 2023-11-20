@@ -24,17 +24,17 @@ _Optional GPU drivers_
 * [cuDNN](https://developer.nvidia.com/cudnn)
   * need to have Nvidia developer account
 ### How to run the code
-*Step 1
+*Step 1: Installed the required packages
 ```sh
 pip install faiss-gpu tensorflow numpy pandas nltk transformers flask flask-cors
 ```
 
-*Step 2
+*Step 2: Enter the directory
 ```sh
 cd medbertgpt
 ```
 
-*Step 3
+*Step 3: Run the deployment file
 ```sh
 python deployment.py
 ```
