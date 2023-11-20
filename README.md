@@ -32,7 +32,7 @@ pip install faiss-gpu tensorflow numpy pandas nltk transformers flask flask-cors
 
 **Step 2**: Enter the directory
 ```sh
-cd medbertgpt
+cd code
 ```
 
 **Step 3**: Run the deployment file
