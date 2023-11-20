@@ -42,7 +42,7 @@ python deployment.py
 ### Fine Tune BioBert/GPT-2 Model
 
 _Training BioBert_
-* Follow the steps in [Part1_BioBert_Finetuning_with_Question_Answer_Extractor_Models.ipynb](./Part1_BioBert_Finetuning_with_Question_Answer_Extractor_Models.ipynb)
+* Follow the steps in [Part1_BioBert.ipynb](./Part1_BioBert.ipynb)
   * Contains the data extraction and data cleaning, followed by the training of the BioBert model
 
 _Training GPT-2_
