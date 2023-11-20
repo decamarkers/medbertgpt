@@ -23,9 +23,10 @@ _Optional GPU drivers_
 * [CUDA ToolKit](https://developer.nvidia.com/cuda-toolkit)
 * [cuDNN](https://developer.nvidia.com/cudnn)
   * need to have Nvidia developer account
-### How to run the code
+### How to run the code (Inference pipeline)
 **Step 1**: Installed the required packages
 ```sh
+# change "faiss-gpu" to "faiss-cpu" if GPU isn't enabled
 pip install faiss-gpu tensorflow numpy pandas nltk transformers flask flask-cors
 ```
 
